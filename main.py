@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, make_response
+import dynamo_service as ds
 from datetime import datetime
 from werkzeug.utils import redirect
 
@@ -7,6 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    ds.get_all_logins()
     return render_template('home.html')
 
 
