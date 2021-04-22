@@ -26,3 +26,43 @@ def get_all_logins():
 
     response = table.scan()
     print(response)
+
+
+def create_music_table():
+    partition_key_type = 'HASH'
+    sort_key_type = 'RANGE'
+    table = DB.create_table(
+        TableName='music',
+        KeySchema=[
+            {
+                'AttributeName': 'artist',
+                'KeyType': partition_key_type
+            },
+            {
+                'AttributeName': 'title',
+                'KeyType': sort_key_type
+            },
+            {
+                'AttributeName': 'year',
+                'KeyType': sort_key_type
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'artist',
+                'AttributeType': 'N'
+            },
+            {
+                'AttributeName': 'title',
+                'AttributeType': 'S'
+            },
+            {
+                'AttributeName': 'year',
+                'AttributeType': 'S'
+            }
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
