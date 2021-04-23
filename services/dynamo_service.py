@@ -4,10 +4,14 @@ https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.
 
 import boto3 as b3
 from botocore.exceptions import ClientError
+import json
+from decimal import Decimal
 from boto3.dynamodb.conditions import Key, Attr
 
 client = b3.client('dynamodb')
 DB = b3.resource('dynamodb')
+LOGIN_TABLE = DB.Table('login')
+MUSIC_TABLE = DB.Table('music')
 
 
 def get_login(email):
@@ -41,23 +45,15 @@ def create_music_table():
             {
                 'AttributeName': 'title',
                 'KeyType': sort_key_type
-            },
-            {
-                'AttributeName': 'year',
-                'KeyType': sort_key_type
             }
         ],
         AttributeDefinitions=[
             {
                 'AttributeName': 'artist',
-                'AttributeType': 'N'
-            },
-            {
-                'AttributeName': 'title',
                 'AttributeType': 'S'
             },
             {
-                'AttributeName': 'year',
+                'AttributeName': 'title',
                 'AttributeType': 'S'
             }
         ],
@@ -65,4 +61,27 @@ def create_music_table():
             'ReadCapacityUnits': 10,
             'WriteCapacityUnits': 10
         }
+
     )
+    return table
+
+
+def load_music():
+    if music_data_exists():
+        print("Music data already exists.")
+    else:
+        music_data = None
+        with open("a2.json") as json_file:
+            music_data = json.load(json_file, parse_float=Decimal)
+
+        for data in music_data['songs']:
+            year = int(data['year'])
+            title = data['title']
+            print("Adding music:", year, title)
+            MUSIC_TABLE.put_item(Item=data)
+
+
+def music_data_exists():
+    response = MUSIC_TABLE.scan()
+    return response.get('Count') != 0
+

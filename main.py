@@ -6,6 +6,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    # TODO: check if table exists in main.
+    #ds.create_music_table()
+    #ds.load_music()
     return render_template('home.html')
 
 
@@ -35,6 +38,7 @@ def valid_login(email, password):
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     return render_template('register.html', message="")
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
