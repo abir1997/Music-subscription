@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, make_response
 from services import dynamo_service as ds
+from services import s3_service as s3s
 
 app = Flask(__name__)
 
@@ -9,7 +10,13 @@ def home():
     # TODO: check if table exists in main.
     #ds.create_music_table()
     #ds.load_music()
+    upload_all_images()
     return render_template('home.html')
+
+
+def upload_all_images():
+    urls = ds.get_all_img_urls()
+    print(urls)
 
 
 @app.route("/login", methods=['GET', 'POST'])

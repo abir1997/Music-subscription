@@ -85,3 +85,11 @@ def music_data_exists():
     response = MUSIC_TABLE.scan()
     return response.get('Count') != 0
 
+
+def get_all_img_urls():
+    response = MUSIC_TABLE.scan()
+    url_list = []
+    for data in response['Items']:
+        url_list.append(data['img_url'])
+
+    return url_list
