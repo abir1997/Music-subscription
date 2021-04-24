@@ -10,13 +10,13 @@ def home():
     # TODO: check if table exists in main.
     #ds.create_music_table()
     #ds.load_music()
-    upload_all_images()
+    #upload_all_images()
     return render_template('home.html')
 
 
 def upload_all_images():
     urls = ds.get_all_img_urls()
-    print(urls)
+    s3s.upload_from_urls(urls)
 
 
 @app.route("/login", methods=['GET', 'POST'])
