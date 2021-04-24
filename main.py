@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, request, make_response, redirect
 from services import dynamo_service as ds
 from services import s3_service as s3s
 
@@ -44,7 +44,24 @@ def valid_login(email, password):
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    return render_template('register.html', message="")
+    error = None
+    if request.method == 'POST':
+        email = request.form['email']
+        pwd = request.form['password']
+        user_name = request.form['userName']
+
+        if email_exists(email):
+            error = "The email already exists"
+        else:
+            ds.insert_login(email, pwd, user_name)
+            return make_response(redirect("/login"))
+
+    return render_template('register.html', message=error)
+
+
+def email_exists(email):
+    login_acc = ds.get_login(email)
+    return login_acc is not None
 
 
 if __name__ == '__main__':

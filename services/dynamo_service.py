@@ -32,6 +32,21 @@ def get_all_logins():
     print(response)
 
 
+
+def insert_login(email, user_name, password):
+    if email is None or user_name is None or password is None:
+        raise ValueError("Args cannot be null.")
+
+    response = LOGIN_TABLE.put_item(
+        Item={
+            'email': email,
+            'password': password,
+            'user_name': user_name
+        }
+    )
+    print(response)
+    return response
+
 def create_music_table():
     partition_key_type = 'HASH'
     sort_key_type = 'RANGE'

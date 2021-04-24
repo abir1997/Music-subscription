@@ -4,13 +4,13 @@ content %}
     <h3 align="center">Sign Up</h3>
 
     <div class="form-group">
-        <label for="userId">ID</label>
+        <label for="email">Email</label>
         <input
-                type="text"
+                type="email"
                 class="form-control"
-                id="userId"
-                name="userId"
-                placeholder="Enter user id"
+                id="email"
+                name="email"
+                placeholder="Enter email"
         />
     </div>
     <div class="form-group">
@@ -33,11 +33,7 @@ content %}
                 placeholder="Enter password"
         />
     </div>
-    <div class="form-group">
-        <label for="img">Upload picture</label>
-        <input type="file" name="img" id="img" onchange="loadFile(event)">
-        <img id="output" width="200">
-    </div>
+
     <br />
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
@@ -45,11 +41,5 @@ content %}
 <p>{{ message }}</p>
 {% endif %}
 
-<script>
-    let loadFile = function(event) {
-	let image = document.getElementById('output');
-	image.src = URL.createObjectURL(event.target.files[0]);
-};
-</script>
 
 {% endblock %}

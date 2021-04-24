@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h3>User Area</h3>
+    <h3>Hi {{ username }}</a></h3>
+    {% if img_link %}
+    <img src={{ img_link }} style="width:120px; height:120px">
+    {% endif %}
+</div>
+<br>
+
+{% endblock %}
