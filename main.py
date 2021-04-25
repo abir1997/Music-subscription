@@ -69,8 +69,14 @@ def email_exists(email):
 @app.route("/mainpage", methods=['GET', 'POST'])
 def mainpage():
     if request.method == 'POST':
-        # get forms
+        # Get filters
+        title = request.form['title']
+        year = request.form['year']
+        artist = request.form['artist']
+        subscriptions = ds.get_music(artist, title)
+        return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions)
     return render_template('mainpage.html', username=request.cookies.get("user_name"))
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

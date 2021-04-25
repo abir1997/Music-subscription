@@ -43,7 +43,7 @@ def insert_login(email, user_name, password):
             'user_name': user_name
         }
     )
-    print(response)
+
     return response
 
 
@@ -108,3 +108,18 @@ def get_all_img_urls():
         url_list.append(data['img_url'])
 
     return url_list
+
+
+def get_music(artist=None, title=None, year=None):
+    if title is None and artist is None and year is None:
+        response = MUSIC_TABLE.scan()
+        return response.get('Items')
+
+    if title is not None and artist is not None and year is None:
+        response = MUSIC_TABLE.query(
+            KeyConditionExpression=Key('artist').eq(artist) & Key('title').eq(title)
+        )
+        print(str(response['Count']) + "items returned.")
+        return response.get('Items')
+
+

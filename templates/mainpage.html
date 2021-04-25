@@ -12,18 +12,20 @@
 </div>
 
 <div class="container">
+    <h3>Query Area</h3>
     <form method="POST">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    name="title"
-                    placeholder="Enter title"
-            />
-
-            <div class="form-group">
+        <div class="form-row">
+            <div class="col">
+                <label for="title">Title</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        name="title"
+                        placeholder="Enter title"
+                />
+            </div>
+            <div class="col">
                 <label for="year">Year</label>
                 <input
                         type="text"
@@ -34,7 +36,7 @@
                 />
             </div>
 
-            <div class="form-group">
+            <div class="col">
                 <label for="artist">Artist</label>
                 <input
                         type="text"
@@ -45,19 +47,25 @@
                 />
             </div>
 
-            <div class="form-group">
-                <label for="userName">UserName</label>
-                <input
-                        type="text"
-                        class="form-control"
-                        id="userName"
-                        name="userName"
-                        placeholder="Enter user name"
-                />
-            </div>
         </div>
         <br />
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Query</button>
     </form>
 </div>
+<br>
+<div class="card-deck">
+    {% for sub in subscriptions %}
+    <div class="card">
+        <img class="card-img-top" src="" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ sub['title'] }}</h5>
+            <p class="card-text">Artist : {{ sub['artist'] }}</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
 {% endblock %}
