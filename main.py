@@ -27,13 +27,15 @@ def login():
         pwd = request.form['password']
         if valid_login(email, pwd):
             print("Authorization successful.")
-            # route to main area
+            logged_in_user = ds.get_login(email)
+            resp = make_response(redirect("/mainpage"))
+            resp.set_cookie('user_name', logged_in_user['user_name'])
+            return resp
         else:
             print("Authorization Unsuccessful.")
             error = "email or password is invalid"
 
     return render_template('login.html', message=error)
-
 
 def valid_login(email, password):
     login = ds.get_login(email)
@@ -63,6 +65,12 @@ def email_exists(email):
     login_acc = ds.get_login(email)
     return login_acc is not None
 
+
+@app.route("/mainpage", methods=['GET', 'POST'])
+def mainpage():
+    if request.method == 'POST':
+        # get forms
+    return render_template('mainpage.html', username=request.cookies.get("user_name"))
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

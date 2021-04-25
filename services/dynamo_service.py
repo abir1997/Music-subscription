@@ -32,7 +32,6 @@ def get_all_logins():
     print(response)
 
 
-
 def insert_login(email, user_name, password):
     if email is None or user_name is None or password is None:
         raise ValueError("Args cannot be null.")
@@ -46,6 +45,7 @@ def insert_login(email, user_name, password):
     )
     print(response)
     return response
+
 
 def create_music_table():
     partition_key_type = 'HASH'
