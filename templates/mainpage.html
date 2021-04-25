@@ -55,17 +55,21 @@
 <br>
 <div class="card-deck">
     {% for sub in subscriptions %}
-    <div class="card">
-        <img class="card-img-top" src="" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">{{ sub['title'] }}</h5>
-            <p class="card-text">Artist : {{ sub['artist'] }}</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+    <div class="col-sm-3">
+        <div class="card">
+            <img class="card-img-top" src="{{ sub['img_url'] }}" alt="Artist image cap" style="height:200px">
+            <div class="card-body">
+                <h5 class="card-title">{{ sub['title'] }}</h5>
+                <p class="card-text">Artist : {{ sub['artist'] }}, Year : {{ sub['year'] }}</p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            </div>
         </div>
-        {% endfor %}
+        <br>
     </div>
 
+    {% endfor %}
 </div>
 
-
+<br>
 {% endblock %}

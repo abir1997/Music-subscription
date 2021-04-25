@@ -110,16 +110,25 @@ def get_all_img_urls():
     return url_list
 
 
-def get_music(artist=None, title=None, year=None):
-    if title is None and artist is None and year is None:
+def get_music(artist="", title="", year=None):
+    if not title and not artist and year is None:
         response = MUSIC_TABLE.scan()
         return response.get('Items')
 
-    if title is not None and artist is not None and year is None:
+    if title and artist and year is None:
         response = MUSIC_TABLE.query(
             KeyConditionExpression=Key('artist').eq(artist) & Key('title').eq(title)
         )
-        print(str(response['Count']) + "items returned.")
+        print(str(response['Count']) + " items returned.")
         return response.get('Items')
-
-
+    elif title and not artist and year is None:
+        response = MUSIC_TABLE.query(
+            KeyConditionExpression=Key('title').eq(title)
+        )
+        print(str(response['Count']) + " items returned.")
+        return response.get('Items')
+    elif not title and artist and year is None:
+        response = MUSIC_TABLE.query(
+            KeyConditionExpression=Key('artist').eq(artist)
+        )
+        return response.get('Items')
