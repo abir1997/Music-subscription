@@ -69,12 +69,16 @@ def email_exists(email):
 @app.route("/mainpage", methods=['GET', 'POST'])
 def mainpage():
     if request.method == 'POST':
+        error = None
         # Get filters
         title = request.form['title']
         year = request.form['year']
         artist = request.form['artist']
-        subscriptions = ds.get_music(artist, title)
-        return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions)
+        subscriptions = ds.get_music(artist, title, year)
+        if not subscriptions:
+            error = "No result is retrieved. Please query again"
+        return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions,
+                               message=error)
     return render_template('mainpage.html', username=request.cookies.get("user_name"))
 
 
