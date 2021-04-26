@@ -30,12 +30,14 @@ def login():
             logged_in_user = ds.get_login(email)
             resp = make_response(redirect("/mainpage"))
             resp.set_cookie('user_name', logged_in_user['user_name'])
+            resp.set_cookie('email', logged_in_user['email'])
             return resp
         else:
             print("Authorization Unsuccessful.")
             error = "email or password is invalid"
 
     return render_template('login.html', message=error)
+
 
 def valid_login(email, password):
     login = ds.get_login(email)
@@ -55,7 +57,7 @@ def register():
         if email_exists(email):
             error = "The email already exists"
         else:
-            ds.insert_login(email, pwd, user_name)
+            ds.put_login(email, pwd, user_name)
             return make_response(redirect("/login"))
 
     return render_template('register.html', message=error)
@@ -68,18 +70,36 @@ def email_exists(email):
 
 @app.route("/mainpage", methods=['GET', 'POST'])
 def mainpage():
+    subscriptions = ds.get_all_subscriptions(request.cookies.get("email"))
+
     if request.method == 'POST':
         error = None
         # Get filters
-        title = request.form['title']
-        year = request.form['year']
-        artist = request.form['artist']
-        subscriptions = ds.get_music(artist, title, year)
-        if not subscriptions:
+        title = request.form.get('title')
+        year = request.form.get('year')
+        artist = request.form.get('artist')
+
+        subscription_options = ds.get_music(artist, title, year)
+
+        if not subscription_options:
             error = "No result is retrieved. Please query again"
-        return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions,
-                               message=error)
+        sub = request.form.get('subscription')
+        if sub:
+            ds.put_subscription(request.cookies.get("email"), sub)
+            return render_template('mainpage.html', username=request.cookies.get("user_name"),
+                                   subscriptions=subscriptions, music_list=subscription_options, message=error)
+        return render_template('mainpage.html', username=request.cookies.get("user_name"),
+                               music_list=subscription_options, message=error)
     return render_template('mainpage.html', username=request.cookies.get("user_name"))
+
+
+
+# @app.route("/put_subscription", methods=['GET', 'POST'])
+# def put_subscription():
+#     if request.method == 'POST':
+#         sub = request.form.get('subscription')
+#         if sub:
+#             ds.put_subscription(request.cookies.get("email"), sub)
 
 
 if __name__ == '__main__':

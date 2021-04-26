@@ -12,6 +12,7 @@ client = b3.client('dynamodb')
 DB = b3.resource('dynamodb')
 LOGIN_TABLE = DB.Table('login')
 MUSIC_TABLE = DB.Table('music')
+SUBSCRIPTION_TABLE = DB.Table('subscription')
 
 
 def get_login(email):
@@ -32,7 +33,7 @@ def get_all_logins():
     print(response)
 
 
-def insert_login(email, user_name, password):
+def put_login(email, user_name, password):
     if email is None or user_name is None or password is None:
         raise ValueError("Args cannot be null.")
 
@@ -155,3 +156,30 @@ def get_filtered_music_by_year(year, music_list):
         if item['year'] == year:
             filtered_list.append(item)
     return filtered_list
+
+
+def put_subscription(email, subscription):
+    if email is None or subscription is None:
+        raise ValueError("Args cannot be null.")
+
+    response = SUBSCRIPTION_TABLE.put_item(
+        Item={
+            'email': email,
+            'subscription': subscription
+        }
+    )
+
+    print(subscription + " added to " + email)
+    return response
+
+
+def get_all_subscriptions(email):
+    if email is None:
+        raise ValueError("Arg cannot be null.")
+
+    response = SUBSCRIPTION_TABLE.query(
+        KeyConditionExpression=Key('email').eq(email)
+    )
+
+    print("Returned " + str(response.get('Count')) + " items")
+    return response.get('Items')
