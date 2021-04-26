@@ -7,6 +7,7 @@ from botocore.exceptions import ClientError
 import json
 from decimal import Decimal
 from boto3.dynamodb.conditions import Key, Attr
+import re
 
 client = b3.client('dynamodb')
 DB = b3.resource('dynamodb')
@@ -186,6 +187,10 @@ def get_all_subscriptions(email):
     items = response.get('Items')
     # convert subscriptions to dict or just return dict??
     for item in items:
-        sub_list.append(item.get('subscription'))
+        subscription_string = item.get('subscription')
+        json_str = subscription_string.replace("\'", "\"")
+
+        # convert json to dict
+        sub_list.append(json.loads(json_str))
 
     return sub_list
