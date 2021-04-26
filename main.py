@@ -71,7 +71,6 @@ def email_exists(email):
 @app.route("/mainpage", methods=['GET', 'POST'])
 def mainpage():
     subscriptions = ds.get_all_subscriptions(request.cookies.get("email"))
-
     if request.method == 'POST':
         error = None
         # Get filters
@@ -83,14 +82,15 @@ def mainpage():
 
         if not subscription_options:
             error = "No result is retrieved. Please query again"
+
         sub = request.form.get('subscription')
         if sub:
             ds.put_subscription(request.cookies.get("email"), sub)
-            return render_template('mainpage.html', username=request.cookies.get("user_name"),
-                                   subscriptions=subscriptions, music_list=subscription_options, message=error)
+        print(type(subscriptions))
+        print(type(subscription_options))
         return render_template('mainpage.html', username=request.cookies.get("user_name"),
-                               music_list=subscription_options, message=error)
-    return render_template('mainpage.html', username=request.cookies.get("user_name"))
+                               subscriptions=subscriptions, music_list=subscription_options, message=error)
+    return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions)
 
 
 

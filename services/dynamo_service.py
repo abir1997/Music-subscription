@@ -174,6 +174,7 @@ def put_subscription(email, subscription):
 
 
 def get_all_subscriptions(email):
+    sub_list = []
     if email is None:
         raise ValueError("Arg cannot be null.")
 
@@ -182,4 +183,9 @@ def get_all_subscriptions(email):
     )
 
     print("Returned " + str(response.get('Count')) + " items")
-    return response.get('Items')
+    items = response.get('Items')
+    # convert subscriptions to dict or just return dict??
+    for item in items:
+        sub_list.append(item.get('subscription'))
+
+    return sub_list
