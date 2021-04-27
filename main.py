@@ -101,14 +101,5 @@ def mainpage():
     return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions)
 
 
-
-# @app.route("/put_subscription", methods=['GET', 'POST'])
-# def put_subscription():
-#     if request.method == 'POST':
-#         sub = request.form.get('subscription')
-#         if sub:
-#             ds.put_subscription(request.cookies.get("email"), sub)
-
-
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
