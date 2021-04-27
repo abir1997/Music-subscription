@@ -28,6 +28,8 @@ def upload_from_urls(url_list):
         req_data = file_object_from_req.read()
 
         file_name = url.rsplit('/', 1)[-1]
-        s3.Bucket('artistimg').put_object(Key= file_name, Body=req_data)
+        s3.Bucket('artistimg').put_object(Key=file_name, Body=req_data)
 
 
+def get_img_link(file_name):
+    pass

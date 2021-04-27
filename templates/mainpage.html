@@ -18,6 +18,7 @@
                 <p class="card-text">Artist : {{ sub['artist'] }}, Year : {{ sub['year'] }}</p>
                 <form method="POST">
                     <input name="subscription" type="hidden" value='{{ sub }}'>
+                    <input name="remove" type="hidden" value="True">
                     <button type="submit" class="btn btn-secondary"><small>Remove</small></button>
                 </form>
             </div>

@@ -197,6 +197,23 @@ def put_subscription(email, subscription):
         return response
 
 
+def remove_subscription(email, sub):
+    if sub is None:
+        raise ValueError("Args cannot be null.")
+    try:
+        response = SUBSCRIPTION_TABLE.get_item(Key={'email': email})
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+
+    item = response.get('Item')
+    if not item:
+        raise ValueError("No item returned from Dynamodb.")
+    else:
+        item['subscription'].remove(sub)
+        SUBSCRIPTION_TABLE.put_item(Item=item)
+        print(sub + " has been removed from subscriptions.")
+
+
 def get_all_subscriptions(email):
     sub_list = []
     if email is None:
@@ -208,14 +225,12 @@ def get_all_subscriptions(email):
 
     print("Returned " + str(response.get('Count')) + " items")
     items = response.get('Items')
-    # convert subscriptions to dict or just return dict??
+    # get subscription set from response
     for item in items:
         subscription_set = item.get('subscription')
         for subscription in subscription_set:
-
-            json_str = subscription.replace("\'", "\"")
-
             # convert json to dict
+            json_str = subscription.replace("\'", "\"")
             sub_list.append(json.loads(json_str))
 
     return sub_list

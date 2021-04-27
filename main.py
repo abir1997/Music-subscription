@@ -87,10 +87,17 @@ def mainpage():
         if sub:
             ds.put_subscription(request.cookies.get("email"), sub)
             subscriptions = ds.get_all_subscriptions(request.cookies.get("email"))
-        print(type(subscriptions))
-        print(type(subscription_options))
+            error = None
+
+        remove = request.form.get('remove')
+        if remove:
+            ds.remove_subscription(request.cookies.get("email"), sub)
+            subscriptions = ds.get_all_subscriptions(request.cookies.get("email"))
+            error = None
+
         return render_template('mainpage.html', username=request.cookies.get("user_name"),
                                subscriptions=subscriptions, music_list=subscription_options, message=error)
+
     return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions)
 
 
