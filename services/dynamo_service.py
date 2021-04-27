@@ -7,7 +7,6 @@ from botocore.exceptions import ClientError
 import json
 from decimal import Decimal
 from boto3.dynamodb.conditions import Key, Attr
-import re
 
 client = b3.client('dynamodb')
 DB = b3.resource('dynamodb')
@@ -116,8 +115,9 @@ def get_music(artist="", title="", year=""):
     response = None
     filtered_list = []
     if not title and not artist and not year:
-        response = MUSIC_TABLE.scan()
-        filtered_list = response.get('Items')
+        return filtered_list
+        # response = MUSIC_TABLE.scan()
+        # filtered_list = response.get('Items')
 
     elif title and artist and not year:
         response = MUSIC_TABLE.query(
@@ -139,8 +139,7 @@ def get_music(artist="", title="", year=""):
         filtered_list = get_filtered_music_by_year(year, response.get('Items'))
     elif title and not artist and year:
         response = MUSIC_TABLE.scan()
-        filtered_list = get_filtered_music_by_title(title, response.get('Items'))
-        filtered_list = get_filtered_music_by_year(year)
+        filtered_list = get_filtered_music_by_filters(title, year, response.get('Items'))
     elif not title and not artist and year:
         response = MUSIC_TABLE.scan()
         filtered_list = get_filtered_music_by_year(year, response.get('Items'))
@@ -164,19 +163,38 @@ def get_filtered_music_by_title(title, music_list):
     return filtered_list
 
 
+def get_filtered_music_by_filters(title, year, music_list):
+    filtered_list = []
+    for item in music_list:
+        if item['title'] == title and item['year'] == year:
+            filtered_list.append(item)
+    return filtered_list
+
+
 def put_subscription(email, subscription):
     if email is None or subscription is None:
         raise ValueError("Args cannot be null.")
 
-    response = SUBSCRIPTION_TABLE.put_item(
-        Item={
-            'email': email,
-            'subscription': subscription
-        }
-    )
+    try:
+        response = SUBSCRIPTION_TABLE.get_item(Key={'email': email})
+    except ClientError as e:
+        print(e.response['Error']['Message'])
 
-    print(subscription + " added to " + email)
-    return response
+    if not response.get('Item'):
+        subscription_set = {subscription}
+        response = SUBSCRIPTION_TABLE.put_item(
+            Item={
+                'email': email,
+                'subscription': subscription_set
+            }
+        )
+    else:
+        item = response.get('Item')
+        item['subscription'].add(subscription)
+        SUBSCRIPTION_TABLE.put_item(Item=item)
+
+        print(subscription + " added to " + email)
+        return response
 
 
 def get_all_subscriptions(email):
@@ -192,10 +210,12 @@ def get_all_subscriptions(email):
     items = response.get('Items')
     # convert subscriptions to dict or just return dict??
     for item in items:
-        subscription_string = item.get('subscription')
-        json_str = subscription_string.replace("\'", "\"")
+        subscription_set = item.get('subscription')
+        for subscription in subscription_set:
 
-        # convert json to dict
-        sub_list.append(json.loads(json_str))
+            json_str = subscription.replace("\'", "\"")
+
+            # convert json to dict
+            sub_list.append(json.loads(json_str))
 
     return sub_list
