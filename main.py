@@ -86,6 +86,7 @@ def mainpage():
         sub = request.form.get('subscription')
         if sub:
             ds.put_subscription(request.cookies.get("email"), sub)
+            subscriptions = ds.get_all_subscriptions(request.cookies.get("email"))
         print(type(subscriptions))
         print(type(subscription_options))
         return render_template('mainpage.html', username=request.cookies.get("user_name"),

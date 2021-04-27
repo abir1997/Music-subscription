@@ -125,10 +125,8 @@ def get_music(artist="", title="", year=""):
         )
         filtered_list = response.get('Items')
     elif title and not artist and not year:
-        response = MUSIC_TABLE.query(
-            KeyConditionExpression=Key('title').eq(title)
-        )
-        filtered_list = response.get('Items')
+        response = MUSIC_TABLE.scan()
+        filtered_list = get_filtered_music_by_title(title, response.get('Items'))
     elif not title and artist and not year:
         response = MUSIC_TABLE.query(
             KeyConditionExpression=Key('artist').eq(artist)
@@ -140,9 +138,8 @@ def get_music(artist="", title="", year=""):
         )
         filtered_list = get_filtered_music_by_year(year, response.get('Items'))
     elif title and not artist and year:
-        response = MUSIC_TABLE.query(
-            KeyConditionExpression=Key('title').eq(title)
-        )
+        response = MUSIC_TABLE.scan()
+        filtered_list = get_filtered_music_by_title(title, response.get('Items'))
         filtered_list = get_filtered_music_by_year(year)
     elif not title and not artist and year:
         response = MUSIC_TABLE.scan()
@@ -155,6 +152,14 @@ def get_filtered_music_by_year(year, music_list):
     filtered_list = []
     for item in music_list:
         if item['year'] == year:
+            filtered_list.append(item)
+    return filtered_list
+
+
+def get_filtered_music_by_title(title, music_list):
+    filtered_list = []
+    for item in music_list:
+        if item['title'] == title:
             filtered_list.append(item)
     return filtered_list
 

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fb104888-c7ac-4acd-956c-b173696fb372" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/dynamo_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/dynamo_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/mainpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mainpage.html" afterDir="false" />
     </list>
@@ -17,17 +18,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="82" selection-start-line="82" selection-end-line="82" />
+            <state relative-caret-position="152">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/mainpage.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="80" column="26" lean-forward="true" selection-start-line="80" selection-start-column="26" selection-end-line="80" selection-end-column="26" />
+              <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
               </folding>
@@ -35,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/services/dynamo_service.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="191" column="40" lean-forward="true" selection-start-line="191" selection-start-column="40" selection-end-line="191" selection-end-column="40" />
+            <state relative-caret-position="153">
+              <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
               <folding>
                 <element signature="e#104#122#0" expanded="true" />
               </folding>
@@ -74,14 +75,14 @@
         <option value="$PROJECT_DIR$/templates/navigation.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/templates/mainpage.html" />
         <option value="$PROJECT_DIR$/services/dynamo_service.py" />
+        <option value="$PROJECT_DIR$/templates/mainpage.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-329" />
-    <option name="y" value="1321" />
+    <option name="x" value="-330" />
+    <option name="y" value="1320" />
     <option name="width" value="1940" />
     <option name="height" value="1310" />
   </component>
@@ -190,7 +191,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49929875" visible="true" weight="0.30736545" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.26062322" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.2592068" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -226,9 +227,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>72</line>
-          <option name="timeStamp" value="9" />
+          <url>file://$PROJECT_DIR$/services/dynamo_service.py</url>
+          <line>115</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -317,13 +318,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/flask/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="2446" selection-start-line="2446" selection-end-line="2446" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/werkzeug/datastructures.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -331,29 +325,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/mainpage.html">
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/flask/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="80" column="26" lean-forward="true" selection-start-line="80" selection-start-column="26" selection-end-line="80" selection-end-column="26" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="421">
+          <caret line="1950" selection-start-line="1950" selection-end-line="1950" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        <state relative-caret-position="152">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/services/dynamo_service.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="191" column="40" lean-forward="true" selection-start-line="191" selection-start-column="40" selection-end-line="191" selection-end-column="40" />
+        <state relative-caret-position="153">
+          <caret line="9" column="9" lean-forward="true" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
           <folding>
             <element signature="e#104#122#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/mainpage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

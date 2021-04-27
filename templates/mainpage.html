@@ -6,13 +6,11 @@
 </div>
 <br>
 
-<div class="container">
-    <h3>Subscription Area</h3>
 
-    <div class="card-deck">
-        {% for sub in subscriptions %}
-        <h3>{{ sub }}</h3>
-        <h4>'{{ sub['img_url'] }}'</h4>
+<h3>Subscription Area</h3>
+<div class="card-deck">
+    {% for sub in subscriptions %}
+    <div class="col-sm-3">
         <div class="card">
             <img class="card-img-top" src="{{ sub['img_url'] }}" alt="Artist image cap" style="height:200px">
             <div class="card-body">
@@ -24,10 +22,11 @@
                 </form>
             </div>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 
+<br>
 
 <div class="container">
     <h3>Query Area</h3>
