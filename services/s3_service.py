@@ -1,8 +1,20 @@
 import boto3 as b3
 from botocore.exceptions import ClientError
 import requests
-client = b3.client('s3')
-s3 = b3.resource('s3')
+
+ACCESS_KEY = "AKIARJGY4FCQXM2EMNF6"
+SECRET_KEY = "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"
+REGION = "us-east-1"
+client = b3.client('s3',
+                   aws_access_key_id=ACCESS_KEY,
+                   aws_secret_access_key=SECRET_KEY,
+                   region_name=REGION)
+s3 = b3.resource('s3',
+                 aws_access_key_id=ACCESS_KEY,
+                 aws_secret_access_key=SECRET_KEY,
+                 region_name=REGION
+                 )
+
 
 # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
 def upload_file(file_name, bucket, object_name=None):

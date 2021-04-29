@@ -8,8 +8,22 @@ import json
 from decimal import Decimal
 from boto3.dynamodb.conditions import Key, Attr
 
-client = b3.client('dynamodb')
-DB = b3.resource('dynamodb')
+ACCESS_KEY = "AKIARJGY4FCQXM2EMNF6"
+SECRET_KEY = "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"
+REGION = "us-east-1"
+
+client = b3.client('dynamodb',
+                   aws_access_key_id=ACCESS_KEY,
+                   aws_secret_access_key=SECRET_KEY,
+                   region_name=REGION
+                   )
+
+DB = b3.resource('dynamodb',
+                 aws_access_key_id=ACCESS_KEY,
+                 aws_secret_access_key=SECRET_KEY,
+                 region_name=REGION
+                 )
+
 LOGIN_TABLE = DB.Table('login')
 MUSIC_TABLE = DB.Table('music')
 SUBSCRIPTION_TABLE = DB.Table('subscription')
