@@ -33,7 +33,7 @@ def get_all_logins():
     print(response)
 
 
-def put_login(email, user_name, password):
+def put_login(email, password, user_name):
     if email is None or user_name is None or password is None:
         raise ValueError("Args cannot be null.")
 
