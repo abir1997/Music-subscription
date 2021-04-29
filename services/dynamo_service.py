@@ -210,8 +210,13 @@ def remove_subscription(email, sub):
         raise ValueError("No item returned from Dynamodb.")
     else:
         item['subscription'].remove(sub)
-        SUBSCRIPTION_TABLE.put_item(Item=item)
-        print(sub + " has been removed from subscriptions.")
+        # Delete entry from table if last subscription because DynamoDB does not allow empty set.
+        if len(item['subscription']) == 0:
+            print("Last subscription removed. Deleting entry for user : " + email)
+            SUBSCRIPTION_TABLE.delete_item(Key={'email': email})
+        else:
+            SUBSCRIPTION_TABLE.put_item(Item=item)
+            print(sub + " has been removed from subscriptions.")
 
 
 def get_all_subscriptions(email):

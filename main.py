@@ -100,12 +100,14 @@ def mainpage():
 
     return render_template('mainpage.html', username=request.cookies.get("user_name"), subscriptions=subscriptions)
 
+
 @app.route("/logout")
 def logout():
     resp = make_response(redirect("/login"))
     resp.set_cookie('user_name', '', expires=0)
     resp.set_cookie('email', '', expires=0)
     return resp
+
 
 if __name__ == '__main__':
     #app.run(host='127.0.0.1', port=8080, debug=True)
