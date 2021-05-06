@@ -128,36 +128,54 @@ def get_all_img_urls():
 def get_music(artist="", title="", year=""):
     response = None
     filtered_list = []
+
     if not title and not artist and not year:
         return filtered_list
-        # response = MUSIC_TABLE.scan()
-        # filtered_list = response.get('Items')
 
     elif title and artist and not year:
-        response = MUSIC_TABLE.query(
-            KeyConditionExpression=Key('artist').eq(artist) & Key('title').eq(title)
-        )
-        filtered_list = response.get('Items')
+        response = MUSIC_TABLE.scan()
+        filtered_list = get_filtered_music_by_artist_and_year(artist, title)
+
     elif title and not artist and not year:
         response = MUSIC_TABLE.scan()
         filtered_list = get_filtered_music_by_title(title, response.get('Items'))
+
     elif not title and artist and not year:
-        response = MUSIC_TABLE.query(
-            KeyConditionExpression=Key('artist').eq(artist)
-        )
-        filtered_list = response.get('Items')
+        response = MUSIC_TABLE.scan()
+        filtered_list = get_filtered_music_by_artist(artist, response.get('Items'))
+
+    elif not title and artist and year:
+        response = MUSIC_TABLE.scan()
+        filtered_list = get_filtered_music_by_artist_and_year(artist, year, response.get('Items'))
+
     elif title and artist and year:
-        response = MUSIC_TABLE.query(
-            KeyConditionExpression=Key('artist').eq(artist) & Key('title').eq(title)
-        )
-        filtered_list = get_filtered_music_by_year(year, response.get('Items'))
+        response = MUSIC_TABLE.scan()
+        filtered_list = get_filtered_music_by_filters(artist, title, year, response.get('Items'))
+
     elif title and not artist and year:
         response = MUSIC_TABLE.scan()
-        filtered_list = get_filtered_music_by_filters(title, year, response.get('Items'))
+        filtered_list = get_filtered_music_by_title_and_year(title, year, response.get('Items'))
+
     elif not title and not artist and year:
         response = MUSIC_TABLE.scan()
         filtered_list = get_filtered_music_by_year(year, response.get('Items'))
 
+    return filtered_list
+
+
+def get_filtered_music_by_artist_and_year(artist, year, music_list):
+    filtered_list = []
+    for item in music_list:
+        if artist in item['artist'] and item['year'] == year:
+            filtered_list.append(item)
+    return filtered_list
+
+
+def get_filtered_music_by_title_and_artist(artist, title, music_list):
+    filtered_list = []
+    for item in music_list:
+        if artist in item['artist'] and title in item['title']:
+            filtered_list.append(item)
     return filtered_list
 
 
@@ -172,15 +190,31 @@ def get_filtered_music_by_year(year, music_list):
 def get_filtered_music_by_title(title, music_list):
     filtered_list = []
     for item in music_list:
-        if item['title'] == title:
+        if title in item['title']:
             filtered_list.append(item)
     return filtered_list
 
 
-def get_filtered_music_by_filters(title, year, music_list):
+def get_filtered_music_by_artist(artist, music_list):
     filtered_list = []
     for item in music_list:
-        if item['title'] == title and item['year'] == year:
+        if artist in item['artist']:
+            filtered_list.append(item)
+    return filtered_list
+
+
+def get_filtered_music_by_title_and_year(title, year, music_list):
+    filtered_list = []
+    for item in music_list:
+        if title in item['title'] and item['year'] == year:
+            filtered_list.append(item)
+    return filtered_list
+
+
+def get_filtered_music_by_filters(artist, title, year, music_list):
+    filtered_list = []
+    for item in music_list:
+        if title in item['title'] and artist in item['artist'] and item['year'] == year:
             filtered_list.append(item)
     return filtered_list
 
